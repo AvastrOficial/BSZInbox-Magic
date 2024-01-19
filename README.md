@@ -1,0 +1,1 @@
+# BSZInbox-Magic
