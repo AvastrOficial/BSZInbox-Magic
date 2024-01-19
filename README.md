@@ -56,3 +56,6 @@ Este código utiliza JavaScript para interactuar con la API de correos desechabl
 
 ![image](https://github.com/AvastrOficial/BSZInbox-Magic/assets/91764815/ed335459-617c-4899-807b-71e1d06b16b1)
 
+link del la pagina funcionado correctamente vercion 
+BSZInbox Magic 0.0.2
+https://archivador.foroactivo.com/h3-bszinbox-magic
