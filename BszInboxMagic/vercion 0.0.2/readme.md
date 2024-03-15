@@ -14,3 +14,8 @@ Protección de Privacidad: Si deseas mantener tu privacidad en línea, puedes us
 Evitar el Spam: Al utilizar un correo temporal en situaciones en las que puedes recibir correos no deseados, puedes evitar que tu buzón principal se llene de spam.
 
 link del la pagina funcionado correctamente vercion BSZInbox Magic 0.0.2 https://archivador.foroactivo.com/h3-bszinbox-magic
+
+imagenes relacionadas :
+![image](https://github.com/AvastrOficial/BSZInbox-Magic/assets/91764815/39a3a2f4-439a-4f23-9149-e9312628ab06)
+![image](https://github.com/AvastrOficial/BSZInbox-Magic/assets/91764815/fcbea9ab-a184-423e-9371-7aa7c6dddd59)
+
