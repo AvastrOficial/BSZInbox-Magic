@@ -1,4 +1,4 @@
-vercion : 0.0.0
+vercion : 0.0.1
 
 La idea de hacer una herramienta estilo para generar correos temporales fue por el uso 
 diario de registrarme a distintas paginas y probar distintas redes sociales,
