@@ -12,3 +12,5 @@ requerimientos :
 - fue creado para personas de uso dispositivos computacional ejemplo una pc o computadora donde el navegador es mas visible y estetico 
 
 imagenes relacionadas :
+![image](https://github.com/AvastrOficial/BSZInbox-Magic/assets/91764815/a347e332-6e07-4c3a-9da8-98528a21f6dc)
+![image](https://github.com/AvastrOficial/BSZInbox-Magic/assets/91764815/5a9bf65d-3a80-42c6-a410-1c7279667e4e)
