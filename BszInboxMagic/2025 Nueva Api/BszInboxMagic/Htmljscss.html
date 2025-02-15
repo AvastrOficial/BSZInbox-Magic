@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correo Temporal</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  
+    
+    <!--
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣹⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢁⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣴⣶⣾⣿⣿⣿⣿⣶⣶⣤⣀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣿⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⡀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡅⠠⣄⠀⠀⠀⠀⢀⠔⣱⣿⠇⠀
+⠀⠀⠀⠀⠀⠀⢐⣵⡿⢷⣦⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡑⠢⡀⠀⣡⣾⣿⠏⠀⠀
+⠀⠀⠀⠓⠒⣺⣿⣿⠄⢀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣴⣿⣿⣿⢇⠀⠀⠀
+⠀⠀⠀⠀⣼⣿⣿⣿⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⢹⣿⣿⡿⡧⠁⠀⠀⠀
+⠀⠀⠀⣼⣿⣿⡏⢈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⢀⡜⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⣹⠋⠀⠀⠀⠀⠀⠀
+⠀⠀⢰⣿⣿⣿⣄⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠐⣒⡛⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⢤⣾⣿⣿⡇⠀⠀⠀⠀⠀⠀
+⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠛⠻⢿⣿⣿⣿⣿⣿⣿⣿⠉⠓⣼⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀
+⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠁⠀⠀⡀⢉⣽⢆⠀⣾⠿⢿⣿⠟⠟⠛⢷⣿⣿⣿⣿⡷⡄⠀⠀⠀⠀⠀
+⠀⠀⢻⣿⣿⣿⣿⣿⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⠛⠤⣤⠤⠧⠘⠛⠚⠆⠀⠀⠋⠁⣄⣨⡿⠀⢹⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀
+⠀⠀⢸⣿⣿⣿⣟⡟⠛⣟⣹⠿⣿⣿⣿⣿⣿⠿⣷⢛⡽⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⠋⠁⡠⢼⣿⣟⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠘⣿⣿⣿⣿⣿⣦⠘⣿⣄⠀⠙⣿⣿⠿⠷⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠚⢻⣳⡟⠂⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢹⣿⣿⣿⣿⣿⣷⣜⠛⠒⠤⣽⣿⡄⠀⠀⠀⠀⠀⠀⣰⣖⢒⣶⣢⠤⠿⣄⠀⠀⠀⠀⠀⣼⡟⢱⠈⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣷⣤⣶⣿⣿⢷⣄⠀⠀⠀⠀⠀⣿⡿⣿⣿⣿⣿⡀⠻⡟⠀⠀⠀⣰⣿⡇⠘⡄⠀⠀⠀⠀⠀⠀
+⠀⢀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡈⠀⠀⠀⠀⠀⠙⢄⡈⠉⠹⣿⣧⠀⠘⢦⣠⣾⡿⠿⡇⠀⢻⠢⠀⠀⠀⠀⠀
+⢀⡾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠲⠄⠀⠀⠀⠀⠀⠈⠉⠚⠋⠁⠳⣄⡸⠉⡟⠀⢀⡜⣄⡀⠧⡑⢄⠀⠀⠀
+⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⣠⣄⣤⣄⣀⡀⠀⠀⢀⣴⣿⠁⢸⠀⠀⣸⣤⠤⠀⠀⢱⡀⢢⠀⠀
+⠀⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠛⠛⢿⣿⣿⣻⡟⠻⣿⣿⣿⣿⣿⣿⣤⣿⣿⣿⣿⣿⣿⡗⠉⠉⣋⣵⠓⡤⠄⠀⠀⠱⡀⠃⠀
+⠀⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⡶⠆⠩⠥⣙⡿⠟⠉⠿⠋⠉⠙⢿⣿⠀⠐⢲⠗⠙⠻⣿⡄⠀⠀⠀⠑⡄⠀
+⠀⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⣇⠀⠀⠀⠀⠉⠢⠀⠀⠀⠠⠒⠉⠉⢣⡀⠊⠀⠀⠀⠹⠷⡀⠀⠀⠀⠸⡀
+⠀⠌⢿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣄⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠒⠤⣄⡀⠀⠀⠈⠁⢠⣤⣤⣧
+⠀⠀⠈⢻⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠛⠓⠲⠈⠈⠒⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠶⠶⠞⠛⠛⠛⠛
+⠀⠀⠀⠀⠙⡦⠤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    
+    
+    si deceas ver codigo visita el repositorio :
+    https://github.com/AvastrOficial/
+    -->
+    <style>
+          body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        button, a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover, a:hover {
+            background-color: #6c5ce7;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+        }
+
+        #generatedEmail {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #3498db;
+        }
+
+        #messages {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #F7B914;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .generated-email {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #3498db;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
+            color: #F7B914;
+        }
+
+        .email {
+            color: #F7B914;
+            font-weight: bold;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .separator {
+            margin: 20px 0;
+            height: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background-color: #ccc;
+        }
+
+        .separator::before {
+            margin-right: 10px;
+        }
+
+        .separator::after {
+            margin-left: 10px;
+        }
+
+        .separator2 {
+            margin: 20px 0;
+            border-top: 2px solid #ccc;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #333;
+            padding: 5px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+
+        div.image {
+            position: fixed;
+            right: -40px;
+            bottom: -40px;
+            z-index: -1;
+        }
+
+        #name {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            width: 200px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        #domain {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            width: 200px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        #domain option {
+            font-size: 16px;
+        }
+
+        .alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .tabla {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #dataTable th, #dataTable td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        #dataTable th {
+            background-color: #f2f2f2;
+        }
+
+        #dataTable tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #dataTable tbody tr:hover {
+            background-color: #ddd;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #ccc;
+            border: none;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .close-btn:hover {
+            background-color: #aaa;
+            color: #fff;
+        }
+
+        .customBtn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+
+        .customBtn:hover {
+            background-color: #FF4747;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        button, a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover, a:hover {
+            background-color: #6c5ce7;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+        }
+
+        #generatedEmail {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #3498db;
+        }
+
+        .alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .alert.show {
+            display: block;
+        }
+      div.image {
+    position: fixed;
+    right: -40px;
+    bottom: -40px;
+    z-index: -1;
+}
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <h1>BSZInbox Magic</h1>
+      <div class="separator"></div>
+        <div v-if="loading">Generando correo...</div>
+        <div v-else>
+            <p><strong>Email actual:</strong> {{ email }}</p>
+            <button @click="fetchInbox">Actualizar Bandeja</button>
+            <button @click="generateEmail">Generar nuevo correo</button>
+            <p id="generatedEmail">Presiona "Generar Nuevo Correo"</p>
+            <div class="separator"></div>
+          <h3>Sígueme en mis redes sociales</h3>
+        <div class="social-icons">
+            <a href="https://github.com/AvastrOficial"><img src="https://th.bing.com/th/id/OIP.saZ1ZkS5sHDzRrd8GHUUAAHaHa?rs=1&pid=ImgDetMain" width="50" alt="GitHub"></a>
+            <a href="https://t.me/BSZ_VENTAS"><img src="https://th.bing.com/th/id/OIP.uuUChCkOK3Kmx3wf_-NlCAHaHa?rs=1&pid=ImgDetMain" width="50" alt="Telegram"></a>
+        </div>
+          
+            <!-- Historial de correos generados -->
+            <div v-if="history.length">
+                <h2>Historial de correos</h2>
+                <ul>
+                    <li v-for="(historyItem, index) in history" :key="index">
+                        <strong>Email:</strong> {{ historyItem.email }}
+                        <ul>
+                            <li v-for="(mail, i) in historyItem.emails" :key="i">
+                                <strong>{{ mail.from }}</strong> - {{ mail.subject }}
+                                <p v-html="mail.html || mail.body"></p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div v-if="emails.length">
+                <h2>Bandeja de entrada</h2>
+                <ul>
+                    <li v-for="mail in emails" :key="mail.date">
+                        <strong>{{ mail.from }}</strong> - {{ mail.subject }}
+                        <p v-html="mail.html || mail.body"></p>
+                    </li>
+                </ul>
+            </div>
+            <div v-else>
+                <p>No hay correos aún.</p>
+            </div>
+        </div>
+
+        <!-- Alerta -->
+        <div v-show="showAlert" class="alert">
+            Espera 10 segundos
+        </div>
+    </div>
+</div>
+
+<script>
+    const { createApp, ref, onMounted } = Vue;
+
+    const App = {
+        setup() {
+            const email = ref('');
+            const token = ref('');
+            const emails = ref([]);
+            const loading = ref(true);
+            const history = ref([]);
+            const showAlert = ref(false); // Mostrar alerta
+            let alertTimeout = null;
+
+            const generateEmail = async () => {
+                try {
+                    const response = await axios.post('https://cors-anywhere.herokuapp.com/https://api.tempmail.lol/v2/inbox/create');
+                    email.value = response.data.address;
+                    token.value = response.data.token;
+
+                    // Añadir el email generado al historial
+                    history.value.push({ email: email.value, emails: [] });
+                    fetchInbox(); // Obtener los correos para el buzón generado
+                } catch (error) {
+                    console.error('Error generating email:', error);
+                    if (error.message === "Request failed with status code 500") {
+                        showAlert.value = true;
+                        alertTimeout = setTimeout(() => {
+                            showAlert.value = false;
+                        }, 10000); // Esperar 10 segundos
+                    }
+                } finally {
+                    loading.value = false;
+                }
+            };
+
+            const fetchInbox = async () => {
+                if (!token.value) return;
+                try {
+                    const response = await axios.get(`https://cors-anywhere.herokuapp.com/https://api.tempmail.lol/v2/inbox?token=${token.value}`);
+                    emails.value = response.data.emails;
+
+                    // Guardar los correos en el historial bajo el buzón correspondiente
+                    const currentHistory = history.value.find(item => item.email === email.value);
+                    if (currentHistory) {
+                        currentHistory.emails = emails.value;
+                    }
+                } catch (error) {
+                    console.error('Error fetching inbox:', error);
+                }
+            };
+
+            onMounted(generateEmail); // Generar un correo al cargar
+
+            return { email, emails, loading, fetchInbox, generateEmail, history, showAlert };
+        }
+    };
+
+    createApp(App).mount('#app');
+  
+  
+  
+  
+  
+  
+    // Array con URLs de imágenes
+const imagesArray = [
+  'https://i.imgur.com/xLpjXE0.gif',
+  'https://aniyuki.com/wp-content/uploads/2021/05/aniyuki-anime-dance-gif-87.gif',
+  'https://th.bing.com/th/id/R.def0b505caff9c9160c22dabc987d4ca?rik=pvmA5Wq8AHYpwg&pid=ImgRaw&r=0',
+'https://i.pinimg.com/originals/b6/6b/df/b66bdfe012a030c61f8e59dac0a68a22.gif',
+'https://gifs.eco.br/wp-content/uploads/2022/07/gifs-de-anime-kawaii-12.gif',
+'https://aniyuki.com/wp-content/uploads/2021/05/aniyuki-anime-dance-gif-81.gif',
+'https://pa1.aminoapps.com/6050/24240c1bac34c3e5aacc4a81763daa5de02bc233_hq.gif',
+'https://pa1.aminoapps.com/6050/a726bdd0c5a43da94aa4839fba7e888909d6f29c_hq.gif',
+'https://aniyuki.com/wp-content/uploads/2021/05/aniyuki-anime-dance-gif-8.gif',
+'https://usagif.com/wp-content/uploads/gify/49-anime-dance.gif',
+'https://pa1.aminoapps.com/6909/7f3b8fe34ffc10d554707df0d29a7296fb6aa9far1-360-640_hq.gif',
+'https://pa1.aminoapps.com/6909/06cb70eb90c81e8e291d21e4e02055422faa2862r1-500-281_hq.gif',
+'https://pa1.aminoapps.com/6909/570c321af11daad0068f3ce73f12463f290e39bcr1-320-320_hq.gif',
+'https://media.tenor.com/images/f0dda1f24bd7647ebab8060df502b061/tenor.gif',  'https://66.media.tumblr.com/25643dc7b50221bcc4cd31637f6f48d9/tumblr_ni8lwidwsW1t00j3vo1_400.gif',
+  'https://usagif.com/wp-content/uploads/gify/48-anime-dance.gif',
+  'https://th.bing.com/th/id/R.3a443087febf321bc6b0077af7e6f139?rik=4fGFyz1cIQ07ow&pid=ImgRaw&r=0',
+  'https://pa1.narvii.com/6543/6b895a9a6aa03259e064be720b31e4b38cc9de55_hq.gif',
+  'https://i.imgur.com/kauSpmL.gif',
+'https://pa1.aminoapps.com/6909/f9799f918f9bb17f91406d3d5309344c2d14eed7r1-499-500_hq.gif'
+  // Añade más URLs de imágenes según sea necesario
+];
+
+function mostrarImagenAleatoria() {
+  // Obtener un número aleatorio basado en la longitud del array de imágenes
+  const randomIndex = Math.floor(Math.random() * imagesArray.length);
+
+  // Obtener el elemento img y establecer su atributo src con la URL de la imagen aleatoria
+  const imgElement = document.getElementById('randomImage');
+  imgElement.src = imagesArray[randomIndex];
+}
+
+// Llamar a la función al cargar la página o cuando sea necesario
+mostrarImagenAleatoria();
+</script>
+<div class="image">
+  <img id="randomImage" >
+</div>
+</body>
+</html>
