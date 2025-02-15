@@ -52,7 +52,8 @@ messagesList: Lista para mostrar mensajes.
 randomImage: Elemento de imagen para mostrar imágenes aleatorias.
 Este código utiliza JavaScript para interactuar con la API de correos desechables y mostrar imágenes aleatorias al cargar la página
 
-![image](https://github.com/AvastrOficial/BSZInbox-Magic/assets/91764815/ed335459-617c-4899-807b-71e1d06b16b1)
+![image](https://github.com/user-attachments/assets/863225cb-a7ee-469c-a028-b719222a4ff8)
+
 
 link del la pagina funcionado correctamente vercion 
 BSZInbox Magic 0.0.2
