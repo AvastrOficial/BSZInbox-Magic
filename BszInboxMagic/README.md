@@ -57,4 +57,4 @@ Este código utiliza JavaScript para interactuar con la API de correos desechabl
 
 link del la pagina funcionado correctamente vercion 
 BSZInbox Magic 0.0.2
-https://archivador.foroactivo.com/h3-bszinbox-magic
+https://toolapikey.foroactivo.com/h3-bszinbox-magic
