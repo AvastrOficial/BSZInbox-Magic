@@ -134,3 +134,6 @@ Cuando la página se carga, genera un correo automáticamente.
 - El historial almacena los correos generados y sus respectivos mensajes.
 - Si hay un error al generar un correo, aparece una alerta de espera de 10 segundos.
 - Se incluyen botones para actualizar la bandeja y generar nuevos correos.
+  
+![image](https://github.com/user-attachments/assets/d08e4443-f285-4d42-a852-093a82e83654)
+
